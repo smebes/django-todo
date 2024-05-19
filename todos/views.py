@@ -1,6 +1,6 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.views import generic
-from .models import Todo
+from .models import Products
 from django.http import HttpResponseRedirect
 
 class IndexView(generic.ListView):
@@ -9,22 +9,22 @@ class IndexView(generic.ListView):
 
     def get_queryset(self):
         """Return all the latest todos."""
-        return Todo.objects.order_by('-created_at')
+        return Products.objects.order_by('-created_at')
 
 def add(request):
     title = request.POST['title']
-    Todo.objects.create(title=title)
+    Products.objects.create(title=title)
 
     return redirect('todos:index')
 
 def delete(request, todo_id):
-    todo = get_object_or_404(Todo, pk=todo_id)
+    todo = get_object_or_404(Products, pk=todo_id)
     todo.delete()
 
     return redirect('todos:index')
 
 def update(request, todo_id):
-    todo = get_object_or_404(Todo, pk=todo_id)
+    todo = get_object_or_404(Products, pk=todo_id)
     isCompleted = request.POST.get('isCompleted', False)
     if isCompleted == 'on':
         isCompleted = True
